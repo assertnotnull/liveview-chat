@@ -7,7 +7,7 @@
     <% end %>
   </div>
 
-  <%= form_for :chat, "#", [id: "chat-form", phx_submit: :submit_message], fn f -> %>
-    <%= text_input f, :message, placeholder: "Enter yout message..." %>
+  <%= form_for :chat, "#", [id: "chat-form", phx_submit: :submit_message, phx_change: :form_update], fn f -> %>
+    <%= text_input f, :message, value: @message, placeholder: "Enter yout message..." %>
   <% end %>
 </div>

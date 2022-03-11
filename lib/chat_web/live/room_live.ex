@@ -11,6 +11,7 @@ defmodule ChatWeb.RoomLive do
      assign(socket,
        room_id: room_id,
        topic: topic,
+       message: "",
        messages: [%{uuid: UUID.uuid4(), content: "You joined the chat"}],
        temporary_assigns: [messages: []]
      )}
@@ -21,7 +22,13 @@ defmodule ChatWeb.RoomLive do
     Logger.info(message: message)
     message = %{uuid: UUID.uuid4(), content: message}
     ChatWeb.Endpoint.broadcast(socket.assigns.topic, "new-message", message)
-    {:noreply, socket}
+    {:noreply, assign(socket, message: "")}
+  end
+
+  @impl true
+  def handle_event("form_update", %{"chat" => %{"message" => message}}, socket) do
+    Logger.info(message: message)
+    {:noreply, assign(socket, message: message)}
   end
 
   @impl true
