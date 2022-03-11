@@ -1,0 +1,11 @@
+<p>Currently chatting in <strong><%= @room_id %></strong></p>
+
+<div id="chat-container">
+  <div id="chat-messages">
+    chat goes here
+  </div>
+
+  <%= form_for :chat, "#", [id: "chat-form", phx_submit: :submit_message], fn f -> %>
+    <%= text_input f, :message, placeholder: "Enter yout message..." %>
+  <% end %>
+</div>
