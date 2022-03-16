@@ -21,6 +21,7 @@ defmodule ChatWeb.RoomLive do
        messages: [
          %{uuid: UUID.uuid4(), content: "#{username} joined the chat", username: "system"}
        ],
+       user_list: [],
        temporary_assigns: [messages: []]
      )}
   end
@@ -61,7 +62,11 @@ defmodule ChatWeb.RoomLive do
         %{type: :system, uuid: UUID.uuid4(), content: "#{username} left"}
       end)
 
-    {:noreply, assign(socket, messages: join_messages ++ leave_messages)}
+    user_list =
+      ChatWeb.Presence.list(socket.assigns.topic)
+      |> Map.keys()
+
+    {:noreply, assign(socket, messages: join_messages ++ leave_messages, user_list: user_list)}
   end
 
   def display_message(%{type: :system, uuid: uuid, content: content}) do
